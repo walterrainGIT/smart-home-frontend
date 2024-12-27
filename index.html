@@ -8,33 +8,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Основные стили -->
     <link rel="stylesheet" href="/src/css/styles.css">
+    <!-- Иконка вкладки -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
 </head>
 <body>
-<!-- Основной JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="src/js/script.js"></script>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Smart Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <a class="nav-link" href="src/services.html">Услуги</a>
-                <a class="nav-link" href="src/pricing.html">Прайс-лист</a>
-                <a class="nav-link" href="src/gallery.html">Примеры работ</a>
-                <a class="nav-link" href="src/contact.html">Контакты</a>
-            </ul>
-        </div>
-    </div>
-</nav>
+<!-- Навигационная панель -->
+<div id="navbar"></div>
 
-<div class="container mt-5">
+<script>
+    fetch('/src/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+        });
+</script>
+
+<!-- Основной контент -->
+<div class="container">
     <h1>Добро пожаловать в Smart Home</h1>
     <p>Мы проектируем и устанавливаем умные дома для комфортной жизни.</p>
-    <a href="src/services.html" class="btn btn-primary">Посмотреть наши услуги</a>
+    <a href="/src/services.html" class="btn btn-primary">Посмотреть наши услуги</a>
 </div>
+
+<!-- Основной JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
