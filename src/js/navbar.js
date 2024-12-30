@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const navbarContainer = document.getElementById("navbar-container");
 
     if (navbarContainer) {
-        fetch("/navbar.html")
+        fetch("/smart-home-frontend/navbar.html")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
