@@ -1,4 +1,4 @@
-fetch('/smart-home-frontend/auth.html')
+fetch('/smart-home-frontend/auth-modal.html')
     .then(response => response.text())
     .then(data => {
         // Вставляем HTML модалки в контейнер
