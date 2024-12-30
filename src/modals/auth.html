@@ -1,0 +1,52 @@
+<!-- modals/auth-modal.html -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">Вход / Регистрация</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <div class="tab-content">
+          <!-- Логин -->
+          <div class="tab-pane fade show active" id="loginTab" role="tabpanel">
+            <h6>Логин</h6>
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="loginEmail" placeholder="Введите email" required>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Введите пароль" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+            <p class="mt-3">Нет аккаунта? <a href="#" id="showRegister">Зарегистрируйтесь</a></p>
+          </div>
+
+          <!-- Регистрация -->
+          <div class="tab-pane fade" id="registerTab" role="tabpanel">
+            <h6>Регистрация</h6>
+            <form id="registerForm">
+              <div class="mb-3">
+                <label for="registerEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="registerEmail" placeholder="Введите email" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="registerPassword" placeholder="Введите пароль" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerConfirmPassword" class="form-label">Подтверждение пароля</label>
+                <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Подтвердите пароль" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+            <p class="mt-3">Есть аккаунт? <a href="#" id="showLogin">Войдите</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

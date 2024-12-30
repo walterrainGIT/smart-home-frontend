@@ -1,3 +1,4 @@
+<!-- Ваш основной HTML файл (например, index.html) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="../index.html">
@@ -15,6 +16,14 @@
         <li class="nav-item"><a class="nav-link" href="/src/gallery.html">Примеры работ</a></li>
         <li class="nav-item"><a class="nav-link" href="/src/contacts.html">Контакты</a></li>
       </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal">Войти / Регистрация</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
+
+<!-- Контейнер для модального окна, который будет загружен с помощью JS -->
+<div id="modalContainer"></div>
