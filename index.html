@@ -23,10 +23,23 @@
 <div id="navbar"></div>
 
 <!-- Основной контент -->
-<div class="container">
-    <h1>Добро пожаловать в Smart Home</h1>
-    <p>Мы проектируем и устанавливаем умные дома для комфортной жизни.</p>
-    <a href="/smart-home-frontend/src/services.html" class="btn btn-primary">Посмотреть наши услуги</a>
+<div class="container main-content">
+    <h1 class="main-heading">Добро пожаловать в Smart Home</h1>
+    <p class="lead">Мы проектируем и устанавливаем умные дома для комфортной жизни.</p>
+    <a href="/smart-home-frontend/src/services/services.html" class="btn btn-primary btn-lg">Посмотреть наши услуги</a>
+</div>
+
+<!-- Контейнер для карточек услуг -->
+<div class="container mt-4" id="servicesContainer">
+    <!-- Карточки будут динамически подгружаться сюда -->
+</div>
+
+<!-- Индикатор загрузки -->
+<div id="loading" class="text-center" style="display: none;">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+    </div>
+    <p>Загрузка...</p>
 </div>
 
 <!-- Контейнер для уведомлений -->
@@ -37,11 +50,14 @@
 
 <!-- Динамическая загрузка Navbar и модалки -->
 <script type="module">
-    // Динамическая загрузка Navbar и модалки
     import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
     loadNavbar();
 </script>
 
+<!-- Подключаем модуль loader.js -->
+<script type="module" src="/smart-home-frontend/src/js/loader.js"></script>
+
 <script type="module" src="/smart-home-frontend/src/notifications/toast-notifications.js"></script>
+
 </body>
 </html>

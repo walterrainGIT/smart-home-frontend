@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+    <link rel="stylesheet" href="/smart-home-frontend/src/services/services.css">
+    <!-- Иконка вкладки -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
+</head>
+<body>
+
+<!-- Навигационная панель -->
+<div id="navbar"></div>
+
+<!-- Блок фильтров -->
+<div class="container mt-4">
+    <div class="d-flex justify-content-center">
+        <label for="typeSlider" class="me-2">Тип:</label>
+        <input type="range" id="typeSlider" min="0" max="1" step="1" value="0" class="form-range" style="width: 200px;">
+        <span id="typeLabel">Товар</span>
+    </div>
+</div>
+
+<!-- Контент страницы -->
+<div class="container mt-5">
+    <h1>Наши Услуги</h1>
+    <div class="row" id="servicesContainer">
+        <!-- Карточки услуг будут добавляться сюда динамически -->
+    </div>
+</div>
+
+<!-- Подключаем модуль для загрузки карточек -->
+<script type="module">
+    import { loadServices } from '/smart-home-frontend/src/services/services-request.js'; // Импортируем функцию загрузки услуг
+    loadServices(); // Вызываем функцию загрузки карточек
+</script>
+
+<!-- Динамическая загрузка Navbar -->
+<script type="module">
+    import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
+    loadNavbar();
+</script>
+
+<!-- Динамическая загрузка модалки -->
+<script type="module">
+    const loadModal = async () => {
+        const modalHTML = await fetch('/smart-home-frontend/src/services/modal.html')
+            .then(response => response.text());
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    };
+
+    loadModal();  // Загружаем модалку
+</script>
+
+<!-- Подключение Bootstrap JS (для работы модалки) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

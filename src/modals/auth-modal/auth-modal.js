@@ -32,20 +32,29 @@ export function initializeAuthModalEvents() {
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const loginParam = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
 
-            try {
-                // Отправка запроса на логин
-                const user = await loginUser(loginParam, password);
+            const loginEmailElement = document.getElementById('loginParam');
+            const loginPasswordElement = document.getElementById('loginPassword');
 
-                // Закрываем модалку
-                bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+            // Проверка существования элементов
+            if (loginEmailElement && loginPasswordElement) {
+                const loginParam = loginEmailElement.value;
+                const password = loginPasswordElement.value;
 
-                // Перерисовываем панель навигации
-                checkUserAuthentication();
-            } catch (error) {
-                // Ошибка уже обработана внутри loginUser
+                try {
+                    // Отправка запроса на логин
+                    const user = await loginUser(loginParam, password);
+
+                    // Закрываем модалку
+                    bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+
+                    // Перерисовываем панель навигации
+                    checkUserAuthentication();
+                } catch (error) {
+                    // Ошибка уже обработана внутри loginUser
+                }
+            } else {
+                console.error("Не найдены элементы для логина");
             }
         });
     }
@@ -54,6 +63,7 @@ export function initializeAuthModalEvents() {
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+
             const firstName = document.getElementById('registerFirstName').value;
             const lastName = document.getElementById('registerLastName').value;
             const email = document.getElementById('registerEmail').value;
@@ -83,3 +93,4 @@ export function initializeAuthModalEvents() {
         });
     }
 }
+

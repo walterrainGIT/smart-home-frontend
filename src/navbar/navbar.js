@@ -32,7 +32,6 @@ export function loadNavbar() {
 }
 
 // Функция для инициализации модалки в navbar.js
-
 function initializeAuthModal() {
     const modalContainer = document.getElementById("modalContainer");
 
@@ -46,6 +45,12 @@ function initializeAuthModal() {
             })
             .then((html) => {
                 modalContainer.innerHTML = html;
+
+                // Проверьте наличие объекта bootstrap
+                if (typeof bootstrap === "undefined") {
+                    console.error("Bootstrap не загружен");
+                    return;
+                }
 
                 // Инициализация модалки Bootstrap после вставки HTML
                 const modalInstance = new bootstrap.Modal(document.getElementById("authModal"));
@@ -112,24 +117,40 @@ export function checkUserAuthentication() {
 
 // Функция для отображения кнопки "Войти / Регистрация"
 function displayLoginButton() {
-    const authLink = document.querySelector('.nav-link[data-bs-toggle="modal"]');
-    authLink.textContent = "Войти / Регистрация";
-    authLink.href = "#"; // Ссылка для модалки
+    const authContainer = document.getElementById("authContainer");
+
+    if (authContainer) {
+        // Очистить контейнер перед добавлением кнопки
+        authContainer.innerHTML = `
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal" id="authLink">Войти / Регистрация</a>
+        `;
+    } else {
+        console.error("Контейнер authContainer не найден");
+    }
 }
 
 // Функция для отображения информации о пользователе
 function displayUserInfo(user) {
-    const authLink = document.querySelector('.nav-link[data-bs-toggle="modal"]');
-    authLink.textContent = `${user.username}`;
-    authLink.href = "#"; // отключаем ссылку
+    const authContainer = document.getElementById("authContainer");
+    if (!authContainer) return;
+
+    // Очистим контейнер перед добавлением информации о пользователе
+    authContainer.innerHTML = "";
+
+    // Добавляем имя пользователя
+    const userInfo = document.createElement("span");
+    userInfo.textContent = `${user.username}`;
+    userInfo.classList.add("nav-link", "text-light", "me-2"); // Имя пользователя с отступом
+    userInfo.style.cursor = "default"; // Убираем видимость ссылки
+    authContainer.appendChild(userInfo);
 
     // Добавляем кнопку "Выйти"
     const logoutButton = document.createElement("button");
     logoutButton.textContent = "Выйти";
-    logoutButton.classList.add("btn", "btn-danger");
-    authLink.parentNode.appendChild(logoutButton);
+    logoutButton.classList.add("btn", "btn-danger", "btn-sm"); // Маленькая кнопка выхода
+    authContainer.appendChild(logoutButton);
 
-    // При клике на кнопку "Выйти" выполняем выход
+    // Добавляем обработчик события для выхода
     logoutButton.addEventListener("click", function () {
         logoutUser();
     });
@@ -137,13 +158,13 @@ function displayUserInfo(user) {
 
 // Функция для выхода из системы
 function logoutUser() {
-    const token = getCookie("token");  // Получаем токен из куки
+    const token = getCookie("token");
 
     fetch("http://localhost:3000/auth/logout", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`  // Добавляем токен в заголовки
+            "Authorization": `Bearer ${token}`
         },
         credentials: 'include',
     })
@@ -153,8 +174,8 @@ function logoutUser() {
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
                 // Обновляем UI
-                displayLoginButton();  // Показываем кнопку входа вместо кнопки "Выйти"
-                removeUserInfo();  // Удаляем информацию о пользователе
+                removeUserInfo(); // Удаляем информацию о пользователе
+                displayLoginButton(); // Показываем кнопку входа
             } else {
                 console.error("Ошибка при выходе");
             }
@@ -166,16 +187,11 @@ function logoutUser() {
 
 // Функция для удаления информации о пользователе
 function removeUserInfo() {
-    const authLink = document.querySelector('.nav-link[data-bs-toggle="modal"]');
+    const authContainer = document.getElementById("authContainer");
+    if (!authContainer) return;
 
-    if (authLink) {
-        authLink.textContent = "Войти / Регистрация";  // Обновляем текст кнопки на "Войти / Регистрация"
-        authLink.href = "#";  // Отключаем ссылку
-    }
-
-    // Удаляем кнопку "Выйти", если она есть
-    const logoutButton = document.querySelector(".btn-danger");
-    if (logoutButton) {
-        logoutButton.remove();  // Удаляем кнопку "Выйти"
-    }
+    // Очистить контейнер и вернуть кнопку "Войти / Регистрация"
+    authContainer.innerHTML = `
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal" id="authLink">Войти / Регистрация</a>
+    `;
 }

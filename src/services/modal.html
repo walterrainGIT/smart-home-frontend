@@ -1,0 +1,29 @@
+<!-- Модалка для показа подробной информации о лоте -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- Заголовок модалки, который будет обновлен в openModal -->
+        <h5 class="modal-title" id="serviceModalLabel">Название услуги</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Картинка лота с добавлением класса для ограничения размера -->
+        <img id="modalImage" src="" class="img-fluid service-img" alt="Изображение услуги">
+        <div class="d-flex justify-content-between mt-3">
+          <span id="modalTitle"></span>
+          <span id="modalPrice"></span>
+        </div>
+        <p id="modalDescription" class="mt-3"></p>
+
+        <!-- Контейнер для отображения продуктов -->
+        <div id="modalProducts" class="mt-4">
+          <!-- Продукты будут добавляться сюда с помощью JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
