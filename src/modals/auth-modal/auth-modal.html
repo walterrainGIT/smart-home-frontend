@@ -1,3 +1,4 @@
+<!-- Модалка авторизации и регистрации -->
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -29,8 +30,28 @@
             <h6>Регистрация</h6>
             <form id="registerForm">
               <div class="mb-3">
+                <label for="registerFirstName" class="form-label">Имя</label>
+                <input type="text" class="form-control" id="registerFirstName" placeholder="Введите имя" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerLastName" class="form-label">Фамилия</label>
+                <input type="text" class="form-control" id="registerLastName" placeholder="Введите фамилию" required>
+              </div>
+              <div class="mb-3">
                 <label for="registerEmail" class="form-label">Email</label>
                 <input type="email" class="form-control" id="registerEmail" placeholder="Введите email" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerPhone" class="form-label">Телефон</label>
+                <input type="text" class="form-control" id="registerPhone" placeholder="Введите телефон" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerAddress" class="form-label">Адрес</label>
+                <input type="text" class="form-control" id="registerAddress" placeholder="Введите адрес" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerUsername" class="form-label">Имя пользователя</label>
+                <input type="text" class="form-control" id="registerUsername" placeholder="Введите имя пользователя" required>
               </div>
               <div class="mb-3">
                 <label for="registerPassword" class="form-label">Пароль</label>
@@ -49,3 +70,5 @@
     </div>
   </div>
 </div>
+
+<script type="module" src="/smart-home-frontend/src/modals/auth-modal/auth-modal.js" defer></script>
