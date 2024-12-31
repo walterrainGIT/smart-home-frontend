@@ -1,4 +1,6 @@
 import { getCookie } from '/smart-home-frontend/src/js/cookies.js';  // Импортируем getCookie
+import { initializeAuthModalEvents } from '/smart-home-frontend/src/modals/auth-modal/auth-modal.js';
+import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
 
 // Динамическая загрузка панели навигации и инициализация модалки
 export function loadNavbar() {
@@ -30,6 +32,7 @@ export function loadNavbar() {
 }
 
 // Функция для инициализации модалки в navbar.js
+
 function initializeAuthModal() {
     const modalContainer = document.getElementById("modalContainer");
 
@@ -47,13 +50,15 @@ function initializeAuthModal() {
                 // Инициализация модалки Bootstrap после вставки HTML
                 const modalInstance = new bootstrap.Modal(document.getElementById("authModal"));
 
-                // При клике на ссылку для модалки, показываем модальное окно
                 const loginLink = document.querySelector('.nav-link[data-bs-toggle="modal"]');
                 if (loginLink) {
                     loginLink.addEventListener("click", function () {
                         modalInstance.show();
                     });
                 }
+
+                // Инициализация логики модалки после вставки HTML
+                initializeAuthModalEvents();
             })
             .catch((error) => {
                 console.error("Не удалось загрузить модальное окно:", error);
@@ -62,36 +67,46 @@ function initializeAuthModal() {
 }
 
 // Функция для проверки состояния пользователя (вошел ли он в систему)
-function checkUserAuthentication() {
-    const token = getCookie("token");  // Получаем токен из куки
+export function checkUserAuthentication() {
+    // Получаем токен из куки
+    const token = getCookie('token');
 
+    // Если токен отсутствует, сразу показываем кнопку входа
     if (!token) {
-        // Если токен не найден, считаем, что пользователь не авторизован
-        displayLoginButton();
+        console.log("Пользователь не авторизован");
+        displayLoginButton();  // Показать кнопку для входа
         return;
     }
 
-    // Если токен есть, проверяем данные пользователя
+    // Отправляем запрос с токеном в заголовке Authorization
     fetch("http://localhost:3000/user/me", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`  // Добавляем токен в заголовки
-        }
+            "Content-Type": "application/json",  // Если нужно передавать данные в JSON
+            "Authorization": `Bearer ${token}`,  // Добавляем токен в заголовок Authorization
+        },
+        credentials: 'include',
     })
         .then((response) => {
-            if (response.ok) {
-                return response.json();
+            if (!response.ok) {
+                // Если ответ от сервера не успешен (например, неверный токен)
+                console.log("Пользователь не авторизован");
+                displayLoginButton();  // Показать кнопку для входа
+                return Promise.reject("Пользователь не авторизован"); // Прерываем дальнейшую обработку
             }
-            throw new Error("Пользователь не авторизован");
+            return response.json();  // Возвращаем данные пользователя
         })
         .then((user) => {
             // Если пользователь авторизован, показываем имя и кнопку "Выйти"
-            displayUserInfo(user);
+            console.log("Пользователь авторизован:", user);
+            displayUserInfo(user);  // Отобразить информацию о пользователе
+            // Не показывать кнопку для входа, так как пользователь авторизован
         })
         .catch((error) => {
-            console.log("Ошибка при получении данных о пользователе:", error);
-            displayLoginButton();
+            // Обработка ошибок: если запрос не удался или токен неверный
+            console.log(error);
+            // На случай, если ошибка произошла и `displayLoginButton` еще не был вызван
+            displayLoginButton();  // Показать кнопку для входа
         });
 }
 
@@ -125,17 +140,21 @@ function logoutUser() {
     const token = getCookie("token");  // Получаем токен из куки
 
     fetch("http://localhost:3000/auth/logout", {
-        method: "POST",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`  // Добавляем токен в заголовки
-        }
+        },
+        credentials: 'include',
     })
         .then((response) => {
             if (response.ok) {
-                // Удаляем токен из куки (или можем выполнить редирект)
+                // Удаляем токен из куки
                 document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                displayLoginButton();
+
+                // Обновляем UI
+                displayLoginButton();  // Показываем кнопку входа вместо кнопки "Выйти"
+                removeUserInfo();  // Удаляем информацию о пользователе
             } else {
                 console.error("Ошибка при выходе");
             }
@@ -143,4 +162,20 @@ function logoutUser() {
         .catch((error) => {
             console.error("Ошибка при запросе выхода:", error);
         });
+}
+
+// Функция для удаления информации о пользователе
+function removeUserInfo() {
+    const authLink = document.querySelector('.nav-link[data-bs-toggle="modal"]');
+
+    if (authLink) {
+        authLink.textContent = "Войти / Регистрация";  // Обновляем текст кнопки на "Войти / Регистрация"
+        authLink.href = "#";  // Отключаем ссылку
+    }
+
+    // Удаляем кнопку "Выйти", если она есть
+    const logoutButton = document.querySelector(".btn-danger");
+    if (logoutButton) {
+        logoutButton.remove();  // Удаляем кнопку "Выйти"
+    }
 }

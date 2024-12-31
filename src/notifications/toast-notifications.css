@@ -1,0 +1,28 @@
+/* Стили для уведомлений */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1060; /* Высокий z-index, чтобы уведомления были поверх модалок */
+    width: 300px;
+}
+
+.toast {
+    margin-bottom: 10px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    font-size: 16px;
+    transition: opacity 0.5s ease-out;
+}
+
+/* Специфичные стили для успешных и ошибочных уведомлений */
+.toast-success {
+    background-color: #28a745; /* Зеленый для успеха */
+}
+
+.toast-error {
+    background-color: #dc3545; /* Красный для ошибок */
+}

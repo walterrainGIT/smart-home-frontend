@@ -16,12 +16,11 @@
 <!-- Навигационная панель -->
 <div id="navbar"></div>
 
-<script>
-  fetch('/smart-home-frontend/src/navbar/navbar.html')
-          .then(response => response.text())
-          .then(data => {
-            document.getElementById('navbar').innerHTML = data;
-          });
+<!-- Динамическая загрузка Navbar и модалки -->
+<script type="module">
+  // Динамическая загрузка Navbar и модалки
+  import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
+  loadNavbar();
 </script>
 
 <!-- Контент страницы -->
