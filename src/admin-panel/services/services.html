@@ -1,0 +1,54 @@
+<!-- services.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Услуги - Админ панель</title>
+
+  <!-- Подключаем Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Общие стили -->
+  <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+
+  <!-- Иконка вкладки -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
+</head>
+<body>
+
+<!-- Навигационная панель -->
+<div id="navbar"></div>
+
+<!-- Панель инструментов -->
+<div class="container mt-4">
+  <h2>Управление услугами</h2>
+  <div class="mb-3">
+    <button class="btn btn-primary" id="addProductBtn">Добавить продукт</button>
+    <button class="btn btn-primary" id="addLotBtn">Добавить лот</button>
+  </div>
+  <!-- Таблицы для продуктов и лотов -->
+  <h3>Продукты</h3>
+  <div id="productsTable"></div>
+
+  <h3 class="mt-5">Лоты</h3>
+  <div id="lotsTable"></div>
+</div>
+
+<!-- Подключаем модуль для загрузки данных -->
+<script type="module">
+  import { loadProducts, loadLots } from '/smart-home-frontend/src/services/services.js';
+  loadProducts(); // Загрузка продуктов
+  loadLots(); // Загрузка лотов
+</script>
+
+<!-- Динамическая загрузка Navbar -->
+<script type="module">
+  import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
+  loadNavbar();
+</script>
+
+<!-- Подключение Bootstrap JS (для работы модалки) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

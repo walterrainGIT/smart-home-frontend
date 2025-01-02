@@ -104,6 +104,11 @@ export function checkUserAuthentication() {
         .then((user) => {
             // Если пользователь авторизован, показываем имя и кнопку "Выйти"
             console.log("Пользователь авторизован:", user);
+
+            // Сохраняем данные о пользователе в sessionStorage
+            sessionStorage.setItem('user', JSON.stringify(user));  // Сохраняем в sessionStorage
+
+            // Обновляем глобальную переменную или используем данные напрямую
             displayUserInfo(user);  // Отобразить информацию о пользователе
             // Не показывать кнопку для входа, так как пользователь авторизован
         })
@@ -134,26 +139,41 @@ function displayUserInfo(user) {
     const authContainer = document.getElementById("authContainer");
     if (!authContainer) return;
 
-    // Очистим контейнер перед добавлением информации о пользователе
     authContainer.innerHTML = "";
 
-    // Добавляем имя пользователя
+    // Имя пользователя с подсказкой
     const userInfo = document.createElement("span");
     userInfo.textContent = `${user.username}`;
-    userInfo.classList.add("nav-link", "text-light", "me-2"); // Имя пользователя с отступом
-    userInfo.style.cursor = "default"; // Убираем видимость ссылки
+    userInfo.classList.add("nav-link", "text-light", "me-2");
+    userInfo.style.cursor = "pointer";
+    userInfo.title = "Перейти в Личный кабинет";
     authContainer.appendChild(userInfo);
 
-    // Добавляем кнопку "Выйти"
+    userInfo.addEventListener("click", () => {
+        window.location.href = "/smart-home-frontend/src/user-cabinet/cabinet.html";
+    });
+
+    // Кнопка "Выйти"
     const logoutButton = document.createElement("button");
     logoutButton.textContent = "Выйти";
-    logoutButton.classList.add("btn", "btn-danger", "btn-sm"); // Маленькая кнопка выхода
+    logoutButton.classList.add("btn", "btn-danger", "btn-sm");
     authContainer.appendChild(logoutButton);
 
-    // Добавляем обработчик события для выхода
-    logoutButton.addEventListener("click", function () {
-        logoutUser();
-    });
+    logoutButton.addEventListener("click", logoutUser);
+
+    // Отображение вкладки "Админ панель", если роль admin
+    if (user.role === "admin") {
+        const navbarLinks = document.getElementById("navbarLinks");
+
+        // Проверяем, существует ли уже элемент с ссылкой на "Админ панель"
+        const existingAdminLink = navbarLinks.querySelector('.nav-link[href="/smart-home-frontend/src/admin-panel/admin.html"]');
+        if (!existingAdminLink) {
+            const adminLink = document.createElement("li");
+            adminLink.classList.add("nav-item");
+            adminLink.innerHTML = `<a class="nav-link text-warning fw-bold" href="/smart-home-frontend/src/admin-panel/admin.html">Админ панель</a>`;
+            navbarLinks.appendChild(adminLink);
+        }
+    }
 }
 
 // Функция для выхода из системы

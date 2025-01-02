@@ -8,23 +8,15 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" id="navbarLinks">
         <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/index.html">Главная</a></li>
         <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/services/services.html">Услуги</a></li>
         <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/portfolio/portfolio.html">Примеры работ</a></li>
         <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/contacts.html">Контакты</a></li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-        <!-- Контейнер для авторизации -->
-        <li class="nav-item d-flex align-items-center" id="authContainer">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal" id="authLink">Войти / Регистрация</a>
-        </li>
-      </ul>
+      <ul class="navbar-nav ms-auto" id="authContainer"></ul>
     </div>
   </div>
 </nav>
-
-<!-- Контейнер для модального окна -->
 <div id="modalContainer"></div>
-
 <link rel="stylesheet" href="/smart-home-frontend/src/navbar/navbar.css">

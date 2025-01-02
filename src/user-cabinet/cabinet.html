@@ -1,0 +1,125 @@
+<!-- /smart-home-frontend/src/user-cabinet/cabinet.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет - Smart Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
+</head>
+<body>
+
+<!-- Навигационная панель -->
+<div id="navbar"></div>
+
+<!-- Блок с личными данными -->
+<div class="container mt-5">
+  <h1>Личный кабинет</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card" id="userImageCard">
+        <img id="userImage" class="card-img-top" alt="user image" style="display: none;">
+        <div class="card-body">
+          <h5 class="card-title" id="userName">Имя пользователя</h5>
+          <p class="card-text" id="userEmail">Email: example@example.com</p>
+          <p class="card-text" id="userPhone">Телефон: 123-456-789</p>
+          <p class="card-text" id="userAddress">Адрес: улица, дом</p>
+          <button class="btn btn-primary" id="editProfileButton">Редактировать профиль</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <h3>Мои заказы</h3>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Услуга</th>
+          <th>Дата заказа</th>
+          <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody id="ordersTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка для редактирования профиля -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProfileModalLabel">Редактировать профиль</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editProfileForm">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="firstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="lastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Телефон</label>
+            <input type="tel" class="form-control" id="phone" required>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Адрес</label>
+            <input type="text" class="form-control" id="address" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Динамическая загрузка Navbar -->
+<script type="module">
+  import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
+  loadNavbar();
+</script>
+
+<!-- Подключаем модалку -->
+<script type="module">
+  import { openEditProfileModal } from '/smart-home-frontend/src/user-cabinet/modals/edit-profile-modal.js';
+  import { getUserData } from '/smart-home-frontend/src/utils/user-data.js';
+
+  // Получаем данные пользователя
+  const userData = JSON.parse(sessionStorage.getItem('user'));  // Загружаем данные из sessionStorage
+
+  // Заполняем данные профиля в cabinet.html
+  document.getElementById('userName').textContent = `${userData.firstName} ${userData.lastName}`;
+  document.getElementById('userEmail').textContent = `Email: ${userData.email}`;
+  document.getElementById('userPhone').textContent = `Телефон: ${userData.phone}`;
+  document.getElementById('userAddress').textContent = `Адрес: ${userData.address}`;
+
+  // Если у пользователя есть картинка, показываем её
+  const userImage = userData.image;
+  if (userImage) {
+    const imageElement = document.getElementById('userImage');
+    imageElement.src = userImage;
+    imageElement.style.display = 'block';
+  }
+
+  // Обработчик кнопки "Редактировать профиль"
+  document.getElementById('editProfileButton').addEventListener('click', () => {
+    openEditProfileModal(); // Открытие модалки
+  });
+</script>
+
+<!-- Подключение Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

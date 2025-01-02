@@ -1,0 +1,59 @@
+/* Общие стили для админ панели */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Панель навигации */
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+/* Панели для контента */
+.panel-container {
+    display: none;
+}
+
+.panel-container.active {
+    display: block;
+}
+
+/* Навигационные ссылки */
+.nav-pills .nav-link {
+    color: #333;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+/* Стили для карточек услуг */
+.card {
+    margin-bottom: 20px;
+}
+
+/* Стили для модулей (услуги, проекты, заказы) */
+#servicesList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#servicesList .card {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+}
+
+/* Стили для фильтров */
+#typeSlider {
+    width: 200px;
+}
