@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Home</title>
+    <title>Portfolio - Smart Home</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Основные стили -->
     <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+    <link rel="stylesheet" href="/smart-home-frontend/src/portfolio/portfolio.css">
     <!-- Иконка вкладки -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
 </head>
@@ -18,13 +19,47 @@
 
 <!-- Контент страницы -->
 <div class="container mt-5">
-    <h1>Примеры работ</h1>
     <div class="row">
-        <!-- Изображение -->
+        <!-- Список проектов -->
         <div class="col-md-4">
-            <img src="https://via.placeholder.com/300" class="img-fluid" alt="Пример работы">
+            <h3>Список проектов</h3>
+            <ul class="list-group" id="projectList">
+                <!-- Динамически загружаемые проекты -->
+            </ul>
         </div>
-        <!-- Копировать блок для других изображений -->
+
+        <!-- Данные выбранного проекта -->
+        <div class="col-md-8">
+            <div id="selectedProject">
+                <!-- Карусель изображений -->
+                <div id="projectCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselImages">
+                        <!-- Изображения загружаются динамически -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+                <!-- Описание проекта -->
+                <h5 id="projectName">Название проекта</h5>
+                <p id="projectDescription">Описание проекта</p>
+                <hr>
+
+                <!-- Данные заказчика -->
+                <h6>Данные заказчика:</h6>
+                <p><strong>Имя:</strong> <span id="customerName"></span></p>
+                <p><strong>Описание:</strong> <span id="customerDescription"></span></p>
+                <div class="text-center">
+                    <img id="customerLogo" src="" alt="Логотип заказчика" class="img-fluid customer-logo">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -34,7 +69,11 @@
     loadNavbar();
 </script>
 
-<!-- Подключение Bootstrap JS (для работы модалки) -->
+<!-- Подключение Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Portfolio Script -->
+<script type="module" src="/smart-home-frontend/src/portfolio/portfolio.js"></script>
+
 </body>
 </html>
