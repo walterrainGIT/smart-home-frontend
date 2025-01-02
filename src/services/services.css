@@ -1,50 +1,87 @@
-/* Для изображений внутри карточек */
-.service-img {
-    width: 100%;          /* Устанавливаем изображение на всю ширину контейнера */
-    height: 200px;        /* Ограничиваем высоту изображения */
-    object-fit: cover;    /* Покрытие изображения без искажения пропорций */
-    background-color: #fff; /* Фоновый цвет, если изображение не заполняет контейнер */
+/* Контейнер с карточками услуг */
+#servicesContainer {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три карточки в строке */
+    gap: 20px; /* Расстояние между карточками */
+    justify-content: center; /* Центровка карточек */
+    padding: 0 20px; /* Отступ внутри контейнера */
 }
 
-/* Обновленные стили для карточек */
+/* Стиль для карточек */
 .card {
-    position: relative;
+    width: 300px; /* Фиксированная ширина карточки */
+    height: 400px; /* Фиксированная высота карточек */
+    background-color: #2c3e50; /* Темный фон карточек */
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    margin-bottom: 20px;  /* Отступы между карточками */
-    min-height: 350px;    /* Минимальная высота карточки */
+    display: flex; /* Flexbox для выравнивания содержимого */
+    flex-direction: column;
+    justify-content: space-between; /* Равномерное распределение внутри карточки */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); /* Более темные тени при наведении */
+}
+
+/* Изображение в карточке */
+.card-img-top {
+    width: 100%; /* Растянуть по ширине карточки */
+    height: 150px; /* Фиксированная высота */
+    object-fit: contain; /* Масштабировать изображение, чтобы оно помещалось в пределах блока, без обрезки */
+    border-bottom: 2px solid #34495e; /* Граница между изображением и содержимым */
+}
+
+/* Тело карточки */
+.card-body {
+    flex: 1; /* Растяжение тела карточки */
+    padding: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Центровка текста */
+    text-align: center;
 }
 
-/* Обновление карточки для адаптивности */
-.card-body {
-    padding: 15px;
-    flex-grow: 1;  /* Чтобы содержимое карточки занимало доступное пространство */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #ecf0f1; /* Белый цвет для текста */
+    margin-bottom: 10px;
 }
 
-/* Для родительского контейнера .row */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;  /* Отступы между карточками */
-    justify-content: space-between;  /* Выравнивание по ширине с равными отступами */
+.card-text {
+    font-size: 1rem;
+    color: #bdc3c7; /* Светло-серый текст */
+    margin-bottom: 15px;
+}
+
+/* Кнопки в карточках */
+.card .btn {
+    background-color: #1abc9c;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    align-self: center; /* Центровка кнопки */
+}
+
+.card .btn:hover {
+    background-color: #16a085;
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
-    .card {
-        margin-bottom: 15px; /* Меньше отступов для мобильных устройств */
-        min-height: 300px;   /* Меньше минимальной высоты для мобильных устройств */
-    }
-
-    .service-img {
-        height: 150px;  /* Меньше высота для изображений на мобильных устройствах */
+@media (max-width: 992px) {
+    #servicesContainer {
+        grid-template-columns: repeat(2, 1fr); /* Две карточки в строке на средних экранах */
     }
 }
 
-/* Для изображений продуктов в модалке */
-.product-img {
-    width: 100%;
-    height: 100px; /* Уменьшаем высоту для картинок в модалке */
-    object-fit: cover;
+@media (max-width: 576px) {
+    #servicesContainer {
+        grid-template-columns: 1fr; /* Одна карточка в строке на мобильных устройствах */
+    }
 }

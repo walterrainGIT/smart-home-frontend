@@ -1,0 +1,115 @@
+<!-- Подключаем локальные стили для модалки -->
+<style>
+  /* Пример локальных стилей для модалки */
+  #serviceModal .modal-content {
+    background-color: #2c3e50; /* Темный фон */
+    color: #ecf0f1; /* Белый текст */
+    border-radius: 12px; /* Закругленные углы */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); /* Тень для модалки */
+  }
+
+  /* Заголовок модалки */
+  #serviceModal .modal-header {
+    background-color: #34495e; /* Темный фон заголовка */
+  }
+
+  /* Кнопка закрытия модалки */
+  #serviceModal .btn-close {
+    color: #ecf0f1; /* Белая кнопка */
+  }
+
+  /* Контент модалки */
+  #serviceModal .modal-body {
+    padding: 20px;
+  }
+
+  #serviceModal .service-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  #serviceModal .product-card {
+    display: flex;
+    background-color: #34495e;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  #serviceModal .product-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-right: 1px solid #34495e;
+  }
+
+  #serviceModal .product-info {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  #serviceModal .product-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ecf0f1;
+    margin-bottom: 5px;
+  }
+
+  #serviceModal .product-description {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    margin-bottom: 10px;
+  }
+
+  #serviceModal .product-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1abc9c;
+  }
+
+  #serviceModal .modal-footer {
+    background-color: #34495e;
+  }
+
+  #serviceModal .modal-footer .btn-secondary {
+    background-color: #1abc9c;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  #serviceModal .modal-footer .btn-secondary:hover {
+    background-color: #16a085;
+  }
+</style>
+
+<!-- Модалка для показа подробной информации о лоте -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serviceModalLabel">Название услуги</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" class="img-fluid service-img" alt="Изображение услуги">
+        <div class="d-flex justify-content-between mt-3">
+          <span id="modalTitle"></span>
+          <span id="modalPrice"></span>
+        </div>
+        <p id="modalDescription" class="mt-3"></p>
+        <div id="modalProducts" class="mt-4"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
