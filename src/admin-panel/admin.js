@@ -7,36 +7,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Функция для загрузки контента в зависимости от выбранной вкладки
     function loadTabContent(tab) {
-        // Очищаем контейнер
-        tabContentContainer.innerHTML = '';
+        tabContentContainer.innerHTML = ''; // Очищаем контейнер перед загрузкой нового содержимого
 
-        // Загружаем соответствующий HTML в контейнер
         switch(tab) {
             case 'services':
-                fetch('/smart-home-frontend/src/admin-panel/services/services.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        tabContentContainer.innerHTML = html;
-                        import('/smart-home-frontend/src/admin-panel/services/services.js');
-                    });
+                loadModule('/smart-home-frontend/src/admin-panel/services/services.html', '/smart-home-frontend/src/admin-panel/services/services.js');
                 break;
+
             case 'projects':
-                fetch('/smart-home-frontend/src/admin-panel/projects/projects.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        tabContentContainer.innerHTML = html;
-                        import('/smart-home-frontend/src/admin-panel/projects/projects.js');
-                    });
+                loadModule('/smart-home-frontend/src/admin-panel/projects/projects.html', '/smart-home-frontend/src/admin-panel/projects/projects.js');
                 break;
+
             case 'orders':
-                fetch('/smart-home-frontend/src/admin-panel/orders/orders.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        tabContentContainer.innerHTML = html;
-                        import('/smart-home-frontend/src/admin-panel/orders/orders.js');
-                    });
+                loadModule('/smart-home-frontend/src/admin-panel/orders/orders.html', '/smart-home-frontend/src/admin-panel/orders/orders.js');
                 break;
+
+            default:
+                console.error(`Неизвестная вкладка: ${tab}`);
         }
+    }
+
+    // Функция для загрузки модуля (HTML + JS)
+    function loadModule(htmlUrl, jsUrl) {
+        fetch(htmlUrl)
+            .then(response => response.text())
+            .then(html => {
+                tabContentContainer.innerHTML = html;
+
+                // Загружаем и инициализируем скрипты для модуля
+                import(jsUrl)
+                    .then(module => {
+                        if (module.initialize) {
+                            module.initialize(); // Инициализация после вставки HTML
+                        }
+                    })
+                    .catch(err => console.error(`Ошибка при импорте скрипта: ${err}`));
+            })
+            .catch(err => console.error('Ошибка при загрузке HTML:', err));
     }
 
     // Инициализация - загружаем вкладку "Услуги" по умолчанию

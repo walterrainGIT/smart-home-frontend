@@ -1,5 +1,6 @@
 // request.js (общая библиотека для обработки fetch запросов)
 import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
+import { getCookie } from '/smart-home-frontend/src/js/cookies.js';  // Импортируем getCookie
 
 /**
  * Универсальная функция для отправки fetch запросов с обработкой ошибок.
@@ -8,11 +9,14 @@ import { showErrorNotification, showSuccessNotification } from '/smart-home-fron
  * @returns {Promise<object>} - Данные ответа.
  */
 export function sendRequest(url, options = {}) {
+    const token = getCookie('token');
+
     // Дефолтные настройки для запроса
     const defaultOptions = {
         method: 'GET',  // по умолчанию GET
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",  // Если нужно передавать данные в JSON
+            "Authorization": `Bearer ${token}`,  // Добавляем токен в заголовок Authorization
         },
         credentials: 'include',  // для работы с куками
     };

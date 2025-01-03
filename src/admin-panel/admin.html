@@ -4,52 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Админ Панель - Smart Home</title>
-  <!-- Подключаем Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Основные стили -->
   <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
-  <!-- Иконка вкладки -->
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/888/888879.png" type="image/png">
 </head>
 <body>
-
-<!-- Динамическая загрузка Navbar -->
 <div id="navbar"></div>
 
-<!-- Навигация по закладкам -->
+<!-- Навигация по вкладкам -->
 <div class="container mt-4">
-  <ul class="nav nav-pills" id="adminTabs">
+  <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" id="servicesTab" href="#">Услуги</a>
+      <a class="nav-link active" href="#" data-target="/admin-panel/services/index.html">Услуги</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="projectsTab" href="#">Проекты</a>
+      <a class="nav-link" href="#" data-target="/admin-panel/projects/index.html">Проекты</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="ordersTab" href="#">Заказы</a>
+      <a class="nav-link" href="#" data-target="/admin-panel/orders/index.html">Заказы</a>
     </li>
   </ul>
 </div>
 
-<!-- Контейнер для модулей -->
-<div class="container mt-5" id="tabContentContainer">
-  <!-- Контент для каждой закладки будет загружаться сюда динамически -->
+<!-- Контейнер для отображения панелей -->
+<div class="container mt-5" style="border: 1px solid #ddd; padding: 20px;">
+  <iframe id="contentFrame" src="/smart-home-frontend/src/admin-panel/services/services.html" frameborder="0" style="width: 100%; height: 80vh;"></iframe>
 </div>
 
-<!-- Подключаем основной JS -->
-<script src="/smart-home-frontend/src/admin-panel/admin.js"></script>
-<!-- Подключаем Bootstrap JS -->
+<!-- Подключение Bootstrap JS (для работы модалки) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Динамическая загрузка модалки -->
+<!-- Динамическая загрузка Navbar -->
 <script type="module">
-  const loadNavbar = async () => {
-    const navbarHTML = await fetch('/smart-home-frontend/src/navbar/navbar.html')
-            .then(response => response.text());
-    document.getElementById('navbar').innerHTML = navbarHTML;
-  };
+  import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
+  loadNavbar();
+</script>
 
-  loadNavbar(); // Загружаем navbar
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const iframe = document.getElementById('contentFrame');
+
+  links.forEach(link => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      // Меняем активную вкладку
+      links.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      // Загружаем нужный модуль
+      const target = link.getAttribute('data-target');
+      iframe.src = target;
+    });
+  });
 </script>
 </body>
 </html>
