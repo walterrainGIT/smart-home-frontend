@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const servicesTab = document.getElementById('servicesTab');
+    const lotsTab = document.getElementById('lotsTab');
+    const productsTab = document.getElementById('productsTab');
+    const customersTab = document.getElementById('customersTab');
     const projectsTab = document.getElementById('projectsTab');
     const ordersTab = document.getElementById('ordersTab');
 
@@ -10,10 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
         tabContentContainer.innerHTML = ''; // Очищаем контейнер перед загрузкой нового содержимого
 
         switch(tab) {
-            case 'services':
-                loadModule('/smart-home-frontend/src/admin-panel/services/services.html', '/smart-home-frontend/src/admin-panel/services/services.js');
+            case 'lots':
+                loadModule('/smart-home-frontend/src/admin-panel/lots/lots.html', '/smart-home-frontend/src/admin-panel/lots/lots.js');
                 break;
-
+            case 'products':
+                loadModule('/smart-home-frontend/src/admin-panel/products/products.html', '/smart-home-frontend/src/admin-panel/products/products.js');
+                break;
+            case 'customers':
+                loadModule('/smart-home-frontend/src/admin-panel/customers/customers.html', '/smart-home-frontend/src/admin-panel/customers/customers.js');
+                break;
             case 'projects':
                 loadModule('/smart-home-frontend/src/admin-panel/projects/projects.html', '/smart-home-frontend/src/admin-panel/projects/projects.js');
                 break;
@@ -47,11 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Инициализация - загружаем вкладку "Услуги" по умолчанию
-    loadTabContent('services');
+    loadTabContent('lots');
 
     // Обработчики кликов по вкладкам
-    servicesTab.addEventListener('click', () => {
-        loadTabContent('services');
+    lotsTab.addEventListener('click', () => {
+        loadTabContent('lots');
+    });
+
+    // Обработчики кликов по вкладкам
+    productsTab.addEventListener('click', () => {
+        loadTabContent('products');
+    });
+
+    // Обработчики кликов по вкладкам
+    customersTab.addEventListener('click', () => {
+        loadTabContent('customers');
     });
 
     projectsTab.addEventListener('click', () => {
