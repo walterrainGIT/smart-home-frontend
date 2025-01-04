@@ -19,7 +19,7 @@ async function loadPortfolios() {
     };
 
     try {
-        const response = await sendRequest('http://localhost:3000/portfolio/portfolio/get', {
+        const response = await sendRequest('http://localhost:3000/portfolio/get', {
             method: 'POST',
             body: JSON.stringify(requestData),
         });

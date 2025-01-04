@@ -16,15 +16,14 @@ function bindEventListeners() {
         addProductButton.addEventListener('click', () => {
             toggleVisibility('productForm', true);
             toggleVisibility('showAddProductBtn', false);
-            clearLotForm();
-            loadProducts('lotProducts'); // Загружаем продукты в форму добавления
+            clearProductForm();
         });
     }
 
     const saveProductButton = document.getElementById('saveProductBtn');
     if (saveProductButton) {
         saveProductButton.addEventListener('click', () => {
-            saveLot();
+            saveProduct();
         });
     }
 }
@@ -36,7 +35,7 @@ function toggleVisibility(elementId, visible) {
     }
 }
 
-function clearLotForm() {
+function clearProductForm() {
     document.getElementById('productName').value = '';
     document.getElementById('productShortDescription').value = '';
     document.getElementById('productDescription').value = '';
@@ -45,15 +44,14 @@ function clearLotForm() {
     currentProductId = null;
 }
 
-async function saveLot() {
+async function saveProduct() {
     const name = document.getElementById('productName').value;
     const shortDescription = document.getElementById('productShortDescription').value;
     const description = document.getElementById('productDescription').value;
     const image = document.getElementById('productImage').value;
-    const products = Array.from(document.getElementById('productProducts').selectedOptions).map(option => parseInt(option.value));
-    const type = document.getElementById('productType').value; // Получаем выбранный тип
+    const price = document.getElementById('productPrice').value;
 
-    const newProduct = { name, shortDescription, description, image, productsIds: products, type };
+    const newProduct = { name, shortDescription, description, image, price };
 
     try {
         const response = await sendRequest('http://localhost:3000/market/product/create', {
@@ -106,16 +104,15 @@ async function loadProducts(page = 1) {
         const productsTable = document.getElementById('productsTable');
         productsTable.innerHTML = `
             <table class="table">
-                <thead><tr><th>Название</th><th>Тип</th><th>Описание</th><th>Цена</th><th>Изображение</th><th>Продукты</th><th>Действия</th></tr></thead>
+                <thead><tr><th>ID</th><th>Название</th><th>Описание</th><th>Цена</th><th>Изображение</th><th>Действия</th></tr></thead>
                 <tbody id="productsTableBody">
                     ${products.map(product => `
                         <tr data-product-id="${product.id}">
+                            <td>${product.id}</td>
                             <td>${product.name}</td>
-                            <td>${product.type}</td>
                             <td>${product.shortDescription}</td>
                             <td>${product.price}</td>
                             <td><img src="${product.image}" alt="${product.name}" width="50"></td>
-                            <td>${product.products.map(p => p.name).join(', ')}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm edit-product-btn">Редактировать</button>
                                 <button class="btn btn-danger btn-sm delete-product-btn">Удалить</button>
@@ -137,7 +134,7 @@ async function loadProducts(page = 1) {
         document.querySelectorAll('.edit-product-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const productId = e.target.closest('tr').dataset.productId;
-                showEditLotModal(productId); // Функция редактирования
+                showEditProductModal(productId); // Функция редактирования
             });
         });
 
@@ -186,7 +183,7 @@ function loadPagination(elementId, currentPage, totalPages, onPageChange) {
     }
 }
 
-async function showEditLotModal(productId) {
+async function showEditProductModal(productId) {
     const productData = products.find(product => product.id === Number(productId));
     if (!productData) {
         console.error(`Продукт с ID ${productId} не найден в памяти.`);
@@ -198,6 +195,7 @@ async function showEditLotModal(productId) {
     document.getElementById('editProductShortDescription').value = productData.shortDescription || '';
     document.getElementById('editProductDescription').value = productData.description || '';
     document.getElementById('editProductImage').value = productData.image || '';
+    document.getElementById('editProductPrice').value = productData.price || '';
 
     // Открываем модальное окно
     const modal = new bootstrap.Modal(document.getElementById('editProductModal'));
@@ -212,6 +210,7 @@ document.getElementById('saveEditedProductBtn').addEventListener('click', async 
     const shortDescription = document.getElementById('editProductShortDescription').value;
     const description = document.getElementById('editProductDescription').value;
     const image = document.getElementById('editProductImage').value;
+    const price = document.getElementById('editProductPrice').value;
 
     // Если продукты изменились, создаем объект для отправки
     const updatedProduct = {
@@ -220,6 +219,7 @@ document.getElementById('saveEditedProductBtn').addEventListener('click', async 
         shortDescription,
         description,
         image,
+        price,
     };
 
     try {

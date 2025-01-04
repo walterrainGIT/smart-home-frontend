@@ -214,4 +214,13 @@ function removeUserInfo() {
     authContainer.innerHTML = `
         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal" id="authLink">Войти / Регистрация</a>
     `;
+
+    // Удалить ссылку "Админ панель", если она существует
+    const navbarLinks = document.getElementById("navbarLinks");
+    if (navbarLinks) {
+        const adminLink = navbarLinks.querySelector('.nav-link[href="/smart-home-frontend/src/admin-panel/admin.html"]');
+        if (adminLink) {
+            adminLink.parentElement.remove(); // Удаляем родительский элемент (обычно <li>)
+        }
+    }
 }

@@ -107,10 +107,11 @@ async function loadLots(page = 1) {
         const lotsTable = document.getElementById('lotsTable');
         lotsTable.innerHTML = `
             <table class="table">
-                <thead><tr><th>Название</th><th>Тип</th><th>Описание</th><th>Цена</th><th>Изображение</th><th>Продукты</th><th>Действия</th></tr></thead>
+                <thead><tr><th>ID</th><th>Название</th><th>Тип</th><th>Описание</th><th>Цена</th><th>Изображение</th><th>Продукты</th><th>Действия</th></tr></thead>
                 <tbody id="lotsTableBody">
                     ${lots.map(lot => `
                         <tr data-lot-id="${lot.id}">
+                            <td>${lot.id}</td>
                             <td>${lot.name}</td>
                             <td>${lot.type}</td>
                             <td>${lot.shortDescription}</td>
@@ -255,8 +256,17 @@ document.getElementById('saveEditedLotBtn').addEventListener('click', async () =
     const productsSelect = document.getElementById('editLotProducts');
     const selectedProducts = Array.from(productsSelect.selectedOptions).map(option => option.value);
 
+    // Находим лот с текущим ID
+    const currentLot = lots.find(lot => lot.id === currentLotId);
+
+    // Проверяем, найден ли лот
+    if (!currentLot) {
+        console.error(`Лот с ID ${currentLotId} не найден.`);
+        return; // Останавливаем выполнение
+    }
+
     // Получаем текущие выбранные продукты для лота
-    const previousSelectedProducts = lots.find(lot => lot.id === currentLotId).productsIds;
+    const previousSelectedProducts = Array.isArray(currentLot.productsIds) ? currentLot.productsIds : [];
 
     // Сравниваем текущие и старые выбранные продукты
     const productsChanged = !arraysEqual(previousSelectedProducts, selectedProducts.map(Number));
@@ -292,6 +302,7 @@ document.getElementById('saveEditedLotBtn').addEventListener('click', async () =
 
 // Функция для сравнения двух массивов
 function arraysEqual(arr1, arr2) {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2)) return false; // Убедимся, что оба аргумента — массивы
     if (arr1.length !== arr2.length) return false;
     return arr1.every((value, index) => value === arr2[index]);
 }

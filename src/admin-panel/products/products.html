@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Управление продуктами</title>
+  <title>Управление услугами</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
 </head>
 <body>
 <div class="container mt-4">
-  <h2>Управление продуктами</h2>
-
-  <!-- Таблицы для продуктов -->
+  <h2>Управление услугами - Продукты</h2>
+  <!-- Таблицы для продуктов и лотов -->
   <div id="productsTable"></div>
-
-  <!-- Форма для добавления/редактирования продукта -->
+  <!-- Форма для добавления лота -->
   <h4 class="mt-4" id="addProductTitle" style="display: none;">Добавить продукт</h4>
   <form id="productForm" style="display: none;">
     <div class="mb-3">
@@ -39,17 +37,55 @@
     </div>
     <button type="button" class="btn btn-primary" id="saveProductBtn">Сохранить</button>
   </form>
-
-  <!-- Кнопка для добавления нового продукта -->
   <button id="showAddProductBtn" class="btn btn-success mt-3">Добавить продукт</button>
 
-  <!-- Разметка для пагинации -->
+  <!-- Разметка для пагинации продуктов -->
   <nav aria-label="Products Pagination">
     <ul class="pagination" id="productsPagination"></ul>
   </nav>
 </div>
 
-<!-- Подключение скриптов -->
+<!-- Модальное окно для редактирования продукта -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProductModalLabel">Редактировать продукт</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editProductForm">
+          <div class="mb-3">
+            <label for="editProductName" class="form-label">Название</label>
+            <input type="text" class="form-control" id="editProductName" required>
+          </div>
+          <div class="mb-3">
+            <label for="editProductShortDescription" class="form-label">Краткое описание</label>
+            <textarea class="form-control" id="editProductShortDescription" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editProductDescription" class="form-label">Описание</label>
+            <textarea class="form-control" id="editProductDescription" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editProductImage" class="form-label">Ссылка на изображение</label>
+            <input type="url" class="form-control" id="editProductImage" required>
+          </div>
+          <div class="mb-3">
+            <label for="editProductPrice" class="form-label">Цена</label>
+            <input type="number" class="form-control" id="editProductPrice" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" id="saveEditedProductBtn">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Скрипт модуля -->
 <script type="module">
   import { initializeProductsModule } from '/smart-home-frontend/src/admin-panel/products/products.js';
   initializeProductsModule();
