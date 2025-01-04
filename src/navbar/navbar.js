@@ -1,6 +1,7 @@
 import { getCookie } from '/smart-home-frontend/src/js/cookies.js';  // Импортируем getCookie
 import { initializeAuthModalEvents } from '/smart-home-frontend/src/modals/auth-modal/auth-modal.js';
 import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
+import { sendRequest } from '/smart-home-frontend/src/utils/request.js';  // Импортируем универсальную функцию для запросов
 
 // Динамическая загрузка панели навигации и инициализация модалки
 export function loadNavbar() {
@@ -83,24 +84,8 @@ export function checkUserAuthentication() {
         return;
     }
 
-    // Отправляем запрос с токеном в заголовке Authorization
-    fetch("http://localhost:3000/user/me", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",  // Если нужно передавать данные в JSON
-            "Authorization": `Bearer ${token}`,  // Добавляем токен в заголовок Authorization
-        },
-        credentials: 'include',
-    })
-        .then((response) => {
-            if (!response.ok) {
-                // Если ответ от сервера не успешен (например, неверный токен)
-                console.log("Пользователь не авторизован");
-                displayLoginButton();  // Показать кнопку для входа
-                return Promise.reject("Пользователь не авторизован"); // Прерываем дальнейшую обработку
-            }
-            return response.json();  // Возвращаем данные пользователя
-        })
+    // Используем универсальную функцию для проверки авторизации
+    sendRequest("http://localhost:3000/user/me", { method: "GET" })
         .then((user) => {
             // Если пользователь авторизован, показываем имя и кнопку "Выйти"
             console.log("Пользователь авторизован:", user);
@@ -110,12 +95,10 @@ export function checkUserAuthentication() {
 
             // Обновляем глобальную переменную или используем данные напрямую
             displayUserInfo(user);  // Отобразить информацию о пользователе
-            // Не показывать кнопку для входа, так как пользователь авторизован
         })
         .catch((error) => {
             // Обработка ошибок: если запрос не удался или токен неверный
             console.log(error);
-            // На случай, если ошибка произошла и `displayLoginButton` еще не был вызван
             displayLoginButton();  // Показать кнопку для входа
         });
 }
@@ -178,27 +161,14 @@ function displayUserInfo(user) {
 
 // Функция для выхода из системы
 function logoutUser() {
-    const token = getCookie("token");
+    sendRequest("http://localhost:3000/auth/logout", { method: "PATCH" })
+        .then(() => {
+            // Удаляем токен из куки
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    fetch("http://localhost:3000/auth/logout", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        credentials: 'include',
-    })
-        .then((response) => {
-            if (response.ok) {
-                // Удаляем токен из куки
-                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-                // Обновляем UI
-                removeUserInfo(); // Удаляем информацию о пользователе
-                displayLoginButton(); // Показываем кнопку входа
-            } else {
-                console.error("Ошибка при выходе");
-            }
+            // Обновляем UI
+            removeUserInfo(); // Удаляем информацию о пользователе
+            displayLoginButton(); // Показываем кнопку входа
         })
         .catch((error) => {
             console.error("Ошибка при запросе выхода:", error);

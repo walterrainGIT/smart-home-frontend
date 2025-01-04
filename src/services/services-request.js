@@ -1,5 +1,6 @@
 import { showLoader, hideLoader } from '/smart-home-frontend/src/js/loader.js';  // Импортируем функции для управления лоадером
 import { sendRequest } from '/smart-home-frontend/src/utils/request.js';  // Импортируем универсальную функцию для запросов
+import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
 
 const pageSize = 50;  // Размер страницы
 let currentPage = 1;  // Номер текущей страницы
@@ -63,6 +64,9 @@ export const loadServices = async () => {
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serviceModal" data-lot-id="${lot.id}">
                                 Подробнее
                             </button>
+                            <button class="btn btn-success buy-button" data-lot-id="${lot.id}">
+                                Купить
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -83,6 +87,29 @@ export const loadServices = async () => {
         button.addEventListener('click', (event) => {
             const lotId = +event.target.getAttribute('data-lot-id');
             openModal(lotId);  // Открываем модалку с данными из lotsData
+        });
+    });
+
+    // Добавляем обработчик событий для кнопок "Купить"
+    const buyButtons = document.querySelectorAll('.buy-button');
+    buyButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const lotId = +event.target.getAttribute('data-lot-id');
+            try {
+                // Отправляем запрос на создание заказа
+                const response = await sendRequest('http://localhost:3000/market/order', {
+                    method: 'POST',
+                    body: JSON.stringify({ lotId }),
+                });
+
+                // Показать сообщение об успехе
+                showSuccessNotification('Заказ успешно оформлен!');
+            } catch (error) {
+                console.error('Ошибка при создании заказа:', error);
+
+                // Показать сообщение об ошибке
+                showErrorNotification('Не удалось оформить заказ. Пожалуйста, попробуйте еще раз.');
+            }
         });
     });
 };
