@@ -6,7 +6,7 @@ let currentProjectId = null;
 let projects = [];
 
 export function initializeProjectsModule() {
-    console.log('Инициализация модуля управления услугами');
+    console.log('Инициализация модуля управления проектами');
     bindEventListeners();
     loadProjects();
 }
@@ -54,7 +54,7 @@ async function saveProject() {
     const newProject = { name, description, images, customerId: +customer, };
 
     try {
-        const response = await sendRequest('http://localhost:3000/portfolio/create', {
+        const response = await sendRequest('http://localhost:3000/create', {
             method: 'POST',
             body: JSON.stringify(newProject),
         });
@@ -264,7 +264,7 @@ document.getElementById('saveEditedProjectBtn').addEventListener('click', async 
     };
 
     try {
-        const response = await sendRequest('http://localhost:3000/portfolio/update', {
+        const response = await sendRequest('http://localhost:3000/update', {
             method: 'PATCH',
             body: JSON.stringify(updatedProject),
         });

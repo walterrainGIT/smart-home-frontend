@@ -5,7 +5,7 @@ let currentProductId = null;
 let products = [];
 
 export function initializeProductsModule() {
-    console.log('Инициализация модуля управления услугами');
+    console.log('Инициализация модуля управления продуктами');
     bindEventListeners();
     loadProducts();
 }

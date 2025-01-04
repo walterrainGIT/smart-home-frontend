@@ -1,6 +1,30 @@
-<div id="ordersContainer">
-    <h1>Заказы</h1>
-    <div id="ordersList">
-        <!-- Заказы будут динамически загружаться сюда -->
-    </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление услугами</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Управление услугами - Заказы</h2>
+    <!-- Таблицы для продуктов и лотов -->
+    <div id="ordersTable"></div>
+    <!-- Форма для добавления лота -->
+    <!-- Разметка для пагинации продуктов -->
+    <nav aria-label="Orders Pagination">
+        <ul class="pagination" id="ordersPagination"></ul>
+    </nav>
 </div>
+
+<!-- Скрипт модуля -->
+<script type="module">
+    import { initializeOrdersModule } from '/smart-home-frontend/src/admin-panel/orders/orders.js';
+    initializeOrdersModule();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

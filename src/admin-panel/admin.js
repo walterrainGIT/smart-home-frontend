@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const lotsTab = document.getElementById('lotsTab');
     const productsTab = document.getElementById('productsTab');
+    const ordersTab = document.getElementById('ordersTab');
     const customersTab = document.getElementById('customersTab');
     const projectsTab = document.getElementById('projectsTab');
-    const ordersTab = document.getElementById('ordersTab');
 
     const tabContentContainer = document.getElementById('tabContentContainer');
 
@@ -18,17 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'products':
                 loadModule('/smart-home-frontend/src/admin-panel/products/products.html', '/smart-home-frontend/src/admin-panel/products/products.js');
                 break;
+            case 'orders':
+                loadModule('/smart-home-frontend/src/admin-panel/order/order.html', '/smart-home-frontend/src/admin-panel/order/order.js');
+                break;
             case 'customers':
                 loadModule('/smart-home-frontend/src/admin-panel/customers/customers.html', '/smart-home-frontend/src/admin-panel/customers/customers.js');
                 break;
             case 'projects':
                 loadModule('/smart-home-frontend/src/admin-panel/projects/projects.html', '/smart-home-frontend/src/admin-panel/projects/projects.js');
                 break;
-
-            case 'orders':
-                loadModule('/smart-home-frontend/src/admin-panel/orders/orders.html', '/smart-home-frontend/src/admin-panel/orders/orders.js');
-                break;
-
             default:
                 console.error(`Неизвестная вкладка: ${tab}`);
         }
@@ -66,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadTabContent('products');
     });
 
+    ordersTab.addEventListener('click', () => {
+        loadTabContent('orders');
+    });
+
     // Обработчики кликов по вкладкам
     customersTab.addEventListener('click', () => {
         loadTabContent('customers');
@@ -73,9 +75,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     projectsTab.addEventListener('click', () => {
         loadTabContent('projects');
-    });
-
-    ordersTab.addEventListener('click', () => {
-        loadTabContent('orders');
     });
 });

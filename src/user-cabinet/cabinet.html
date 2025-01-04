@@ -1,4 +1,3 @@
-<!-- /smart-home-frontend/src/user-cabinet/cabinet.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +39,7 @@
           <th>Услуга</th>
           <th>Дата заказа</th>
           <th>Статус</th>
+          <th>Действия</th>
         </tr>
         </thead>
         <tbody id="ordersTableBody"></tbody>
@@ -95,6 +95,7 @@
 <script type="module">
   import { openEditProfileModal } from '/smart-home-frontend/src/user-cabinet/modals/edit-profile-modal.js';
   import { getUserData } from '/smart-home-frontend/src/utils/user-data.js';
+  import { loadOrders } from '/smart-home-frontend/src/user-cabinet/cabinet-orders.js';  // Новый файл для загрузки заказов
 
   // Получаем данные пользователя
   const userData = JSON.parse(sessionStorage.getItem('user'));  // Загружаем данные из sessionStorage
@@ -112,6 +113,9 @@
     imageElement.src = userImage;
     imageElement.style.display = 'block';
   }
+
+  // Загружаем заказы пользователя
+  loadOrders(userData.id);  // Передаем id пользователя для загрузки заказов
 
   // Обработчик кнопки "Редактировать профиль"
   document.getElementById('editProfileButton').addEventListener('click', () => {
