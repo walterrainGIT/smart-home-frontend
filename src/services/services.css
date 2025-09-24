@@ -1,87 +1,94 @@
-/* Контейнер с карточками услуг */
+/* Контейнер с карточками товаров */
 #servicesContainer {
     margin-top: 40px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Три карточки в строке */
-    gap: 20px; /* Расстояние между карточками */
-    justify-content: center; /* Центровка карточек */
-    padding: 0 20px; /* Отступ внутри контейнера */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    padding: 0 20px;
 }
 
 /* Стиль для карточек */
 .card {
-    width: 300px; /* Фиксированная ширина карточки */
-    height: 400px; /* Фиксированная высота карточек */
-    background-color: #2c3e50; /* Темный фон карточек */
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    height: 400px;
+    background: rgba(30, 30, 60, 0.8); /* Темный полупрозрачный фон */
+    backdrop-filter: blur(15px); /* Glassmorphism */
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(255, 110, 199, 0.5);
     overflow: hidden;
-    display: flex; /* Flexbox для выравнивания содержимого */
+    display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Равномерное распределение внутри карточки */
+    justify-content: space-between;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 110, 199, 0.3);
 }
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); /* Более темные тени при наведении */
+    box-shadow: 0 0 25px #ff6ec7, 0 0 40px rgba(255,110,199,0.5);
 }
 
 /* Изображение в карточке */
 .card-img-top {
-    width: 100%; /* Растянуть по ширине карточки */
-    height: 150px; /* Фиксированная высота */
-    object-fit: contain; /* Масштабировать изображение, чтобы оно помещалось в пределах блока, без обрезки */
-    border-bottom: 2px solid #34495e; /* Граница между изображением и содержимым */
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-bottom: 2px solid rgba(255, 110, 199, 0.3);
 }
 
 /* Тело карточки */
 .card-body {
-    flex: 1; /* Растяжение тела карточки */
+    flex: 1;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Центровка текста */
+    justify-content: center;
     text-align: center;
 }
 
 .card-title {
     font-size: 1.25rem;
-    font-weight: bold;
-    color: #ecf0f1; /* Белый цвет для текста */
+    font-weight: 800;
+    color: #fff;
     margin-bottom: 10px;
+    text-shadow: 0 0 8px #ff6ec7;
 }
 
 .card-text {
     font-size: 1rem;
-    color: #bdc3c7; /* Светло-серый текст */
+    color: #e0e0e0;
     margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* Кнопки в карточках */
 .card .btn {
-    background-color: #1abc9c;
-    color: white;
+    background-color: #ff6ec7;
+    color: #fff;
     border-radius: 50px;
     padding: 10px 20px;
     font-size: 1rem;
-    transition: background-color 0.3s ease;
-    align-self: center; /* Центровка кнопки */
+    transition: all 0.3s ease-in-out;
+    align-self: center;
+    box-shadow: 0 0 10px #ff6ec7, 0 0 20px rgba(255,110,199,0.5);
 }
 
 .card .btn:hover {
-    background-color: #16a085;
+    transform: scale(1.05);
+    background-color: #ff3ebf;
+    box-shadow: 0 0 20px #ff6ec7, 0 0 40px rgba(255,110,199,0.5);
 }
 
 /* Адаптивность */
 @media (max-width: 992px) {
     #servicesContainer {
-        grid-template-columns: repeat(2, 1fr); /* Две карточки в строке на средних экранах */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 576px) {
     #servicesContainer {
-        grid-template-columns: 1fr; /* Одна карточка в строке на мобильных устройствах */
+        grid-template-columns: 1fr;
     }
 }
