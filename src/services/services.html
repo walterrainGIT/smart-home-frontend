@@ -19,10 +19,16 @@
 
 <!-- Блок фильтров -->
 <div class="container mt-4">
-    <div class="d-flex justify-content-center">
-        <label for="typeSlider" class="me-2">Тип:</label>
-        <input type="range" id="typeSlider" min="0" max="1" step="1" value="0" class="form-range" style="width: 200px;">
-        <span id="typeLabel">Товар</span>
+    <div class="d-flex justify-content-center align-items-center">
+        <span class="me-2 slider-label">Тип:</span>
+
+        <div class="slider-wrapper position-relative">
+            <input type="range" id="typeSlider" min="0" max="1" step="1" value="0" class="form-range neon-slider">
+            <div class="slider-texts d-flex justify-content-between">
+                <span>Товар</span>
+                <span>Услуга</span>
+            </div>
+        </div>
     </div>
 </div>
 
