@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "http-server ./ -o"
+  },
   "dependencies": {
     "bootstrap": "^5.3.3"
   },
