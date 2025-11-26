@@ -1,0 +1,84 @@
+.metric-card {
+    background: rgba(30, 30, 60, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 110, 199, 0.3);
+    box-shadow: 0 0 15px rgba(255, 110, 199, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(255, 110, 199, 0.5);
+}
+
+.metric-card .card-title {
+    color: #ff6ec7;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card .card-text {
+    color: #ffffff;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card {
+    background: rgba(30, 30, 60, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 110, 199, 0.3);
+    box-shadow: 0 0 15px rgba(255, 110, 199, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    color: #ff6ec7;
+    margin-bottom: 1rem;
+}
+
+.table {
+    color: #ffffff;
+}
+
+.table thead th {
+    color: #ff6ec7;
+    border-bottom: 2px solid rgba(255, 110, 199, 0.3);
+}
+
+.table tbody tr {
+    border-bottom: 1px solid rgba(255, 110, 199, 0.1);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(255, 110, 199, 0.1);
+}
+
+.form-control, .form-select {
+    background: rgba(30, 30, 60, 0.8);
+    border: 1px solid rgba(255, 110, 199, 0.3);
+    color: #ffffff;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(30, 30, 60, 0.9);
+    border-color: #ff6ec7;
+    box-shadow: 0 0 10px rgba(255, 110, 199, 0.5);
+    color: #ffffff;
+}
+
+.form-label {
+    color: #ff6ec7;
+}
+
+.btn-primary {
+    background-color: #ff6ec7;
+    border-color: #ff6ec7;
+    box-shadow: 0 0 10px rgba(255, 110, 199, 0.5);
+}
+
+.btn-primary:hover {
+    background-color: #ff4db3;
+    border-color: #ff4db3;
+    box-shadow: 0 0 20px rgba(255, 110, 199, 0.7);
+}
+

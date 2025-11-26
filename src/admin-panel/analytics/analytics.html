@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитика - Smart Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+    <link rel="stylesheet" href="/smart-home-frontend/src/admin-panel/analytics/analytics.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Аналитика и статистика</h2>
+    
+    <!-- Фильтры -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <label for="dateFrom" class="form-label">Дата начала:</label>
+            <input type="date" class="form-control" id="dateFrom">
+        </div>
+        <div class="col-md-3">
+            <label for="dateTo" class="form-label">Дата окончания:</label>
+            <input type="date" class="form-control" id="dateTo">
+        </div>
+        <div class="col-md-3">
+            <label for="period" class="form-label">Период:</label>
+            <select class="form-select" id="period">
+                <option value="day">День</option>
+                <option value="week">Неделя</option>
+                <option value="month">Месяц</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-primary w-100" id="applyFilters">Применить фильтры</button>
+        </div>
+    </div>
+
+    <!-- Карточки метрик (KPI) -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Всего заказов</h5>
+                    <h2 class="card-text" id="totalOrders">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Общий доход</h5>
+                    <h2 class="card-text" id="totalRevenue">0 ₽</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Средний чек</h5>
+                    <h2 class="card-text" id="averageOrderValue">0 ₽</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Конверсия</h5>
+                    <h2 class="card-text" id="conversionRate">0%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Графики -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Динамика заказов</h5>
+                    <canvas id="ordersChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Распределение по статусам</h5>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Динамика доходов</h5>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Топ-10 популярных лотов</h5>
+                    <canvas id="popularLotsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Таблицы -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Топ клиентов</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID пользователя</th>
+                                    <th>Количество заказов</th>
+                                    <th>Общая сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topCustomersTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Популярные лоты</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Заказов</th>
+                                    <th>Доход</th>
+                                    <th>Конверсия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="popularLotsTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Контейнер для уведомлений -->
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<!-- Скрипт модуля -->
+<script type="module">
+    import { initializeAnalytics } from '/smart-home-frontend/src/admin-panel/analytics/analytics.js';
+    initializeAnalytics();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

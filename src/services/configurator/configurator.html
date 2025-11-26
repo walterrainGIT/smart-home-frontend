@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конфигуратор умного дома - Smart Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+    <link rel="stylesheet" href="/smart-home-frontend/src/services/configurator/configurator.css">
+</head>
+<body>
+<div id="navbar"></div>
+
+<div class="container mt-4">
+    <h2>Конфигуратор умного дома</h2>
+    
+    <div class="row">
+        <!-- Левая панель: Каталог продуктов -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Каталог продуктов</h5>
+                </div>
+                <div class="card-body" id="productsCatalog">
+                    <!-- Продукты будут загружены динамически -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Центральная панель: Комнаты -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5>План дома</h5>
+                    <button class="btn btn-sm btn-primary" id="addRoom">+ Добавить комнату</button>
+                </div>
+                <div class="card-body" id="roomsContainer">
+                    <!-- Комнаты будут добавлены динамически -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая панель: Информация и действия -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Информация</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="configName" class="form-label">Название конфигурации:</label>
+                        <input type="text" class="form-control" id="configName" placeholder="Мой умный дом">
+                    </div>
+                    <div class="mb-3">
+                        <strong>Общая стоимость:</strong>
+                        <h3 id="totalPrice">0 ₽</h3>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Количество комнат:</strong>
+                        <span id="roomsCount">0</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Всего продуктов:</strong>
+                        <span id="productsCount">0</span>
+                    </div>
+                    <button class="btn btn-success w-100 mb-2" id="saveConfig">Сохранить конфигурацию</button>
+                    <button class="btn btn-primary w-100 mb-2" id="loadConfigs">Загрузить сохраненные</button>
+                    <button class="btn btn-warning w-100" id="createOrder">Создать заказ</button>
+                </div>
+            </div>
+
+            <!-- Список сохраненных конфигураций -->
+            <div class="card mt-3" id="savedConfigsCard" style="display: none;">
+                <div class="card-header">
+                    <h5>Сохраненные конфигурации</h5>
+                </div>
+                <div class="card-body" id="savedConfigsList">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Контейнер для уведомлений -->
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="module">
+    import { initializeConfigurator } from '/smart-home-frontend/src/services/configurator/configurator.js';
+    initializeConfigurator();
+</script>
+</body>
+</html>
+

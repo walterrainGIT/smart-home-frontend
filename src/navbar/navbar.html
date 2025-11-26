@@ -1,22 +1,79 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/smart-home-frontend/index.html">
-      <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="Smart Home Logo" width="30" height="30" class="d-inline-block align-text-top">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/888/888879.png"
+        alt="Smart Home Logo"
+        width="30"
+        height="30"
+        class="d-inline-block align-text-top"
+      />
       Smart Home
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav" id="navbarLinks">
-        <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/index.html">Главная</a></li>
-        <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/services/services.html">Услуги</a></li>
-        <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/portfolio/portfolio.html">Примеры работ</a></li>
-        <li class="nav-item"><a class="nav-link" href="/smart-home-frontend/src/contacts.html">Контакты</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="/smart-home-frontend/index.html">Главная</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/smart-home-frontend/src/services/services.html"
+            >Услуги</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/smart-home-frontend/src/portfolio/portfolio.html"
+            >Примеры работ</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/smart-home-frontend/src/contacts.html"
+            >Контакты</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="toolsDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Инструменты
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="toolsDropdown">
+            <li>
+              <a
+                class="dropdown-item"
+                href="/smart-home-frontend/src/services/configurator/configurator.html"
+                >Конфигуратор</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="/smart-home-frontend/src/services/calculator/calculator.html"
+                >Калькулятор</a
+              >
+            </li>
+          </ul>
+        </li>
       </ul>
       <ul class="navbar-nav ms-auto" id="authContainer"></ul>
     </div>
   </div>
 </nav>
 <div id="modalContainer"></div>
-<link rel="stylesheet" href="/smart-home-frontend/src/navbar/navbar.css">
+<link rel="stylesheet" href="/smart-home-frontend/src/navbar/navbar.css" />

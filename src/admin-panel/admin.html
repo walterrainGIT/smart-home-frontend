@@ -1,70 +1,114 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Админ Панель - Smart Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
-</head>
-<body>
-<div id="navbar"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Админ Панель - Smart Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css" />
+  </head>
+  <body>
+    <div id="navbar"></div>
 
-<!-- Навигация по вкладкам -->
-<div class="container mt-4">
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link active" href="#" data-target="/smart-home-frontend/src/admin-panel/lots/lots.html">Лоты</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" data-target="/smart-home-frontend/src/admin-panel/products/products.html">Продукты</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" data-target="/smart-home-frontend/src/admin-panel/orders/orders.html">Заказы</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" data-target="/smart-home-frontend/src/admin-panel/customers/customers.html">Клиенты</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#" data-target="/smart-home-frontend/src/admin-panel/projects/projects.html">Проекты</a>
-    </li>
-  </ul>
-</div>
+    <!-- Навигация по вкладкам -->
+    <div class="container mt-4">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/lots/lots.html"
+            >Лоты</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/products/products.html"
+            >Продукты</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/orders/orders.html"
+            >Заказы</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/customers/customers.html"
+            >Клиенты</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/projects/projects.html"
+            >Проекты</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            data-target="/smart-home-frontend/src/admin-panel/analytics/analytics.html"
+            >Аналитика</a
+          >
+        </li>
+      </ul>
+    </div>
 
-<!-- Контейнер для отображения панелей -->
-<div class="container" style="border: 1px solid #ddd; padding: 20px;">
-  <iframe id="contentFrame" src="/smart-home-frontend/src/admin-panel/lots/lots.html" frameborder="0" style="width: 100%; height: 100vh;"></iframe>
-</div>
+    <!-- Контейнер для отображения панелей -->
+    <div class="container" style="border: 1px solid #ddd; padding: 20px">
+      <iframe
+        id="contentFrame"
+        src="/smart-home-frontend/src/admin-panel/lots/lots.html"
+        frameborder="0"
+        style="width: 100%; height: 100vh"
+      ></iframe>
+    </div>
 
-<!-- Контейнер для уведомлений -->
-<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+    <!-- Контейнер для уведомлений -->
+    <div
+      id="toastContainer"
+      class="toast-container position-fixed top-0 end-0 p-3"
+    ></div>
 
-<!-- Подключение Bootstrap JS (для работы модалки) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Подключение Bootstrap JS (для работы модалки) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Динамическая загрузка Navbar -->
-<script type="module">
-  import { loadNavbar } from '/smart-home-frontend/src/navbar/navbar.js';
-  loadNavbar();
-</script>
+    <!-- Динамическая загрузка Navbar -->
+    <script type="module">
+      import { loadNavbar } from "/smart-home-frontend/src/navbar/navbar.js";
+      loadNavbar();
+    </script>
 
-<script>
-  const links = document.querySelectorAll('.nav-link');
-  const iframe = document.getElementById('contentFrame');
+    <script>
+      const links = document.querySelectorAll(".nav-link");
+      const iframe = document.getElementById("contentFrame");
 
-  links.forEach(link => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
+      links.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
 
-      // Меняем активную вкладку
-      links.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
+          // Меняем активную вкладку
+          links.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
 
-      // Загружаем нужный модуль
-      const target = link.getAttribute('data-target');
-      iframe.src = target;
-    });
-  });
-</script>
-</body>
+          // Загружаем нужный модуль
+          const target = link.getAttribute("data-target");
+          iframe.src = target;
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор стоимости - Smart Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/smart-home-frontend/src/css/styles.css">
+    <link rel="stylesheet" href="/smart-home-frontend/src/services/calculator/calculator.css">
+</head>
+<body>
+<div id="navbar"></div>
+
+<div class="container mt-4">
+    <h2>Калькулятор стоимости умного дома</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Параметры</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="area" class="form-label">Площадь (м²):</label>
+                        <input type="number" class="form-control" id="area" min="20" max="1000" value="50">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rooms" class="form-label">Количество комнат:</label>
+                        <input type="number" class="form-control" id="rooms" min="1" max="20" value="3">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Опции:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="lighting" checked>
+                            <label class="form-check-label" for="lighting">
+                                Умное освещение
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="security" checked>
+                            <label class="form-check-label" for="security">
+                                Система безопасности
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="climate" checked>
+                            <label class="form-check-label" for="climate">
+                                Климат-контроль
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="multimedia">
+                            <label class="form-check-label" for="multimedia">
+                                Мультимедиа система
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="automation">
+                            <label class="form-check-label" for="automation">
+                                Полная автоматизация
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="level" class="form-label">Уровень комплектации:</label>
+                        <select class="form-select" id="level">
+                            <option value="basic">Базовый</option>
+                            <option value="standard" selected>Стандартный</option>
+                            <option value="premium">Премиум</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Расчет стоимости</h5>
+                </div>
+                <div class="card-body">
+                    <div class="calculation-result">
+                        <div class="result-item">
+                            <span>Базовая стоимость (за м²):</span>
+                            <span id="basePrice">0 ₽</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Стоимость по площади:</span>
+                            <span id="areaPrice">0 ₽</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Стоимость по комнатам:</span>
+                            <span id="roomsPrice">0 ₽</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Опции:</span>
+                            <span id="optionsPrice">0 ₽</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Уровень комплектации:</span>
+                            <span id="levelPrice">0 ₽</span>
+                        </div>
+                        <hr>
+                        <div class="result-item total">
+                            <span><strong>Итого:</strong></span>
+                            <span id="totalPrice"><strong>0 ₽</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h6>Разбивка по категориям:</h6>
+                        <div id="breakdown">
+                            <!-- Разбивка будет добавлена динамически -->
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success w-100 mt-3" id="saveCalculation">Сохранить расчет</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Контейнер для уведомлений -->
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="module">
+    import { initializeCalculator } from '/smart-home-frontend/src/services/calculator/calculator.js';
+    initializeCalculator();
+</script>
+</body>
+</html>
+

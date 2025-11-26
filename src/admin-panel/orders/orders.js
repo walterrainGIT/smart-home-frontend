@@ -1,5 +1,6 @@
 import { sendRequest } from '/smart-home-frontend/src/utils/request.js';
 import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
+import { subscribeToAllOrders } from '/smart-home-frontend/src/utils/websocket.js';
 
 const ordersPerPage = 15;
 let currentOrderId = null;
@@ -8,6 +9,30 @@ let orders = [];
 export function initializeOrdersModule() {
     console.log('Инициализация модуля управления заказами');
     bindEventListeners();
+    loadOrders();
+    setupWebSocket();
+}
+
+function setupWebSocket() {
+    subscribeToAllOrders((data) => {
+        console.log('Order status update received:', data);
+        // Обновляем статус заказа в таблице
+        updateOrderStatusInTable(data.orderId, data.status);
+        showSuccessNotification(`Статус заказа #${data.orderId} изменен на: ${data.status}`);
+    });
+}
+
+function updateOrderStatusInTable(orderId, newStatus) {
+    const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+    if (orderRow) {
+        const statusCell = orderRow.querySelector('.order-status');
+        if (statusCell) {
+            statusCell.textContent = newStatus;
+            // Обновляем цвет статуса
+            statusCell.className = `order-status status-${newStatus}`;
+        }
+    }
+    // Перезагружаем заказы для полного обновления
     loadOrders();
 }
 
