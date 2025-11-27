@@ -4,6 +4,8 @@ import {
   showErrorNotification,
 } from "/smart-home-frontend/src/notifications/toast-notifications.js";
 import { loadNavbar } from "/smart-home-frontend/src/navbar/navbar.js";
+import { checkServerAvailability, getServerStatus } from '/smart-home-frontend/src/utils/server-status.js';  // Импортируем проверку доступности сервера
+import { mockProducts } from '/smart-home-frontend/src/utils/mock-data.js';  // Импортируем мок-данные
 
 let products = [];
 let rooms = [];
@@ -29,6 +31,21 @@ function setupEventListeners() {
 
 async function loadProducts() {
   try {
+    // Проверяем доступность сервера
+    let serverAvailable = getServerStatus();
+    if (serverAvailable === null) {
+      // Если статус еще не проверен, проверяем
+      serverAvailable = await checkServerAvailability();
+    }
+
+    // Если сервер недоступен, используем моки
+    if (!serverAvailable) {
+      console.log("Сервер недоступен, используем мок-данные для конфигуратора");
+      products = mockProducts;
+      renderProductsCatalog();
+      return;
+    }
+
     const response = await sendRequest(
       "http://localhost:3000/market/product/get",
       {
@@ -43,7 +60,10 @@ async function loadProducts() {
     renderProductsCatalog();
   } catch (error) {
     console.error("Ошибка загрузки продуктов:", error);
-    showErrorNotification("Ошибка загрузки каталога продуктов");
+    // В случае ошибки используем моки
+    console.log("Используем мок-данные из-за ошибки");
+    products = mockProducts;
+    renderProductsCatalog();
   }
 }
 
@@ -215,6 +235,13 @@ function updateStats() {
 }
 
 async function saveConfiguration() {
+  // Проверяем доступность сервера
+  const serverAvailable = getServerStatus();
+  if (serverAvailable === false) {
+    showErrorNotification("Сервер недоступен. Сохранение конфигурации невозможно в демо-режиме.");
+    return;
+  }
+
   try {
     const name =
       document.getElementById("configName").value ||
@@ -236,6 +263,13 @@ async function saveConfiguration() {
 }
 
 async function loadSavedConfigurations() {
+  // Проверяем доступность сервера
+  const serverAvailable = getServerStatus();
+  if (serverAvailable === false) {
+    showErrorNotification("Сервер недоступен. Загрузка сохраненных конфигураций невозможна в демо-режиме.");
+    return;
+  }
+
   try {
     const response = await sendRequest(
       "http://localhost:3000/market/configurator/list",
@@ -281,6 +315,13 @@ async function loadSavedConfigurations() {
 }
 
 window.loadConfiguration = async function (configId) {
+  // Проверяем доступность сервера
+  const serverAvailable = getServerStatus();
+  if (serverAvailable === false) {
+    showErrorNotification("Сервер недоступен. Загрузка конфигурации невозможна в демо-режиме.");
+    return;
+  }
+
   try {
     const response = await sendRequest(
       "http://localhost:3000/market/configurator/list",
@@ -313,6 +354,13 @@ window.loadConfiguration = async function (configId) {
 };
 
 window.deleteConfiguration = async function (configId) {
+  // Проверяем доступность сервера
+  const serverAvailable = getServerStatus();
+  if (serverAvailable === false) {
+    showErrorNotification("Сервер недоступен. Удаление конфигурации невозможно в демо-режиме.");
+    return;
+  }
+
   try {
     await sendRequest(
       `http://localhost:3000/market/configurator/delete?id=${configId}`,
@@ -332,6 +380,13 @@ window.deleteConfiguration = async function (configId) {
 async function createOrder() {
   if (rooms.length === 0) {
     showErrorNotification("Добавьте хотя бы одну комнату с продуктами");
+    return;
+  }
+
+  // Проверяем доступность сервера
+  const serverAvailable = getServerStatus();
+  if (serverAvailable === false) {
+    showErrorNotification("Сервер недоступен. Создание заказа невозможно в демо-режиме.");
     return;
   }
 

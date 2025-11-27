@@ -1,4 +1,6 @@
 import { sendRequest } from '/smart-home-frontend/src/utils/request.js';
+import { checkServerAvailability, getServerStatus } from '/smart-home-frontend/src/utils/server-status.js';  // Импортируем проверку доступности сервера
+import { mockPortfolios } from '/smart-home-frontend/src/utils/mock-data.js';  // Импортируем мок-данные
 
 // Основные контейнеры
 const projectListContainer = document.getElementById('projectList');
@@ -11,26 +13,48 @@ const customerLogo = document.getElementById('customerLogo');
 
 // Функция загрузки данных портфолио
 async function loadPortfolios() {
-    const requestData = {
-        page: {
-            size: 10, // Задаём количество проектов на запрос
-            number: 1,
-        },
-    };
-
     try {
-        const response = await sendRequest('http://localhost:3000/portfolio/get', {
-            method: 'POST',
-            body: JSON.stringify(requestData),
-        });
+        // Проверяем доступность сервера
+        let serverAvailable = getServerStatus();
+        if (serverAvailable === null) {
+            // Если статус еще не проверен, проверяем
+            serverAvailable = await checkServerAvailability();
+        }
 
-        const portfolios = response.portfolios;
+        let portfolios;
+
+        // Если сервер недоступен, используем моки
+        if (!serverAvailable) {
+            console.log("Сервер недоступен, используем мок-данные для портфолио");
+            portfolios = mockPortfolios;
+        } else {
+            const requestData = {
+                page: {
+                    size: 10, // Задаём количество проектов на запрос
+                    number: 1,
+                },
+            };
+
+            const response = await sendRequest('http://localhost:3000/portfolio/get', {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+            });
+
+            portfolios = response.portfolios;
+        }
+
         renderProjectList(portfolios);
         if (portfolios.length > 0) {
             updateSelectedProject(portfolios[0]);
         }
     } catch (error) {
         console.error('Ошибка загрузки портфолио:', error);
+        // В случае ошибки используем моки
+        console.log("Используем мок-данные из-за ошибки");
+        renderProjectList(mockPortfolios);
+        if (mockPortfolios.length > 0) {
+            updateSelectedProject(mockPortfolios[0]);
+        }
     }
 }
 

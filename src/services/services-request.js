@@ -1,6 +1,8 @@
 import { showLoader, hideLoader } from '/smart-home-frontend/src/js/loader.js';  // Импортируем функции для управления лоадером
 import { sendRequest } from '/smart-home-frontend/src/utils/request.js';  // Импортируем универсальную функцию для запросов
 import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
+import { checkServerAvailability, getServerStatus } from '/smart-home-frontend/src/utils/server-status.js';  // Импортируем проверку доступности сервера
+import { mockLots } from '/smart-home-frontend/src/utils/mock-data.js';  // Импортируем мок-данные
 
 const pageSize = 50;  // Размер страницы
 let currentPage = 1;  // Номер текущей страницы
@@ -34,22 +36,37 @@ export const loadServices = async () => {
     try {
         showLoader();  // Показываем индикатор загрузки перед запросом
 
-        // Данные для запроса с учетом выбранного типа
-        const requestData = {
-            types: [getSelectedType()],
-            page: {
-                size: pageSize,
-                number: currentPage
-            }
-        };
+        // Проверяем доступность сервера
+        let serverAvailable = getServerStatus();
+        if (serverAvailable === null) {
+            // Если статус еще не проверен, проверяем
+            serverAvailable = await checkServerAvailability();
+        }
 
-        // Отправляем запрос с использованием универсальной функции
-        const data = await sendRequest('http://localhost:3000/market/lot/get', {
-            method: 'POST',
-            body: JSON.stringify(requestData),
-        });
+        // Если сервер недоступен, используем моки
+        if (!serverAvailable) {
+            console.log("Сервер недоступен, используем мок-данные");
+            const selectedType = getSelectedType();
+            const mockData = selectedType === 'product' ? mockLots.products : mockLots.services;
+            lotsData = mockData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+        } else {
+            // Данные для запроса с учетом выбранного типа
+            const requestData = {
+                types: [getSelectedType()],
+                page: {
+                    size: pageSize,
+                    number: currentPage
+                }
+            };
 
-        lotsData = data.lots;  // Сохраняем данные лотов в переменную
+            // Отправляем запрос с использованием универсальной функции
+            const data = await sendRequest('http://localhost:3000/market/lot/get', {
+                method: 'POST',
+                body: JSON.stringify(requestData),
+            });
+
+            lotsData = data.lots;  // Сохраняем данные лотов в переменную
+        }
 
         // Добавляем новые карточки на страницу
         lotsData.forEach(lot => {
@@ -94,6 +111,13 @@ export const loadServices = async () => {
     const buyButtons = document.querySelectorAll('.buy-button');
     buyButtons.forEach(button => {
         button.addEventListener('click', async (event) => {
+            // Проверяем доступность сервера
+            const serverAvailable = getServerStatus();
+            if (serverAvailable === false) {
+                showErrorNotification('Сервер недоступен. Заказ не может быть оформлен в демо-режиме.');
+                return;
+            }
+
             const lotId = +event.target.getAttribute('data-lot-id');
             try {
                 // Отправляем запрос на создание заказа

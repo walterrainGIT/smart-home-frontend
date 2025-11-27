@@ -2,6 +2,7 @@ import { getCookie } from '/smart-home-frontend/src/js/cookies.js';  // Импо
 import { initializeAuthModalEvents } from '/smart-home-frontend/src/modals/auth-modal/auth-modal.js';
 import { showErrorNotification, showSuccessNotification } from '/smart-home-frontend/src/notifications/toast-notifications.js';
 import { sendRequest } from '/smart-home-frontend/src/utils/request.js';  // Импортируем универсальную функцию для запросов
+import { checkServerAvailability, setServerStatus } from '/smart-home-frontend/src/utils/server-status.js';  // Импортируем проверку доступности сервера
 
 // Динамическая загрузка панели навигации и инициализация модалки
 export function loadNavbar() {
@@ -81,6 +82,10 @@ export function checkUserAuthentication() {
     if (!token) {
         console.log("Пользователь не авторизован");
         displayLoginButton();  // Показать кнопку для входа
+        // Проверяем доступность сервера для установки флага
+        checkServerAvailability().catch(() => {
+            console.log("Сервер недоступен - будут использоваться моки");
+        });
         return;
     }
 
@@ -89,6 +94,9 @@ export function checkUserAuthentication() {
         .then((user) => {
             // Если пользователь авторизован, показываем имя и кнопку "Выйти"
             console.log("Пользователь авторизован:", user);
+            
+            // Сервер доступен
+            setServerStatus(true);
 
             // Сохраняем данные о пользователе в sessionStorage
             sessionStorage.setItem('user', JSON.stringify(user));  // Сохраняем в sessionStorage
@@ -99,6 +107,17 @@ export function checkUserAuthentication() {
         .catch((error) => {
             // Обработка ошибок: если запрос не удался или токен неверный
             console.log(error);
+            
+            // Проверяем, это ошибка сети или авторизации
+            if (error.message === 'Failed to fetch' || error.message.includes('network') || error.message === 'Timeout') {
+                // Сервер недоступен
+                setServerStatus(false);
+                console.log("Сервер недоступен - будут использоваться моки");
+            } else {
+                // Сервер доступен, но ошибка авторизации
+                setServerStatus(true);
+            }
+            
             displayLoginButton();  // Показать кнопку для входа
         });
 }
